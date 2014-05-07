@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en" ng-app>
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
+		Remove this if you use the .htaccess -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+		<title>Play It Cool | Fablab Saigon</title>
+		<meta name="description" content="Space App Challenge - Play It Cool Project">
+		<meta name="author" content="FabLab Saigon">
+
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+
+		<meta name="HandheldFriendly" content="True">
+	    <meta name="MobileOptimized" content="320">
+	    <meta http-equiv="cleartype" content="on">
+
+		<!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
+		<link rel="shortcut icon" href="/favicon.ico">
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+		
+		<!-- Bootstrap -->
+    	<link href="css/bootstrap.min.css" rel="stylesheet">
+    	<link href="css/style.css" rel="stylesheet">
+    	
+    	<!-- Google Fonts -->
+    	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'>
+		
+		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	    <!--[if lt IE 9]>
+	      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	    <![endif]-->
+	    
+	    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
+	    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/2.1.0/normalize.css">
+	</head>
+
+	<body>
+		<header>
+			<nav class="navbar navbar-default" role="navigation">
+				<div class="container">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#top-nav">
+					    	<span class="sr-only">Toggle navigation</span>
+					        <span class="icon-bar"></span>
+					        <span class="icon-bar"></span>
+					        <span class="icon-bar"></span>
+					 	</button>
+					   	<a class="navbar-brand" href="/game/" title="Play It Cool"><span class="logo"><img src="imgs/logo.png" alt="Play It Cool" title="Play It Cool" /></span>Play It Cool</a>
+					</div>
+					
+					<div class="collapse navbar-collapse" id="top-nav">
+						<ul class="nav navbar-nav pull-right">
+							<li class="active"><a href="/game/" title="Home">Home</a></li>
+							<li><a href="#" data-toggle="modal" data-target="#gameRule" title="Game Rule">Game Rule</a></li>
+							<li><a href="https://docs.google.com/document/d/18NJ60axrRyf02Gx2SEJVKfa4c2F936sP5vEM0Cf-9KU/pub" title="Build a Checkpoint" target="_blank">Build a Checkpoint</a></li>
+							<li><a href="#" data-toggle="modal" data-target="#fablabsaigon" title="FabLab Saigon">FabLab Saigon</a></li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		
+		<div class="modal fade" id="gameRule" tabindex="-1" role="dialog" aria-labelledby="gameRuleLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h3 class="modal-title" id="gameRuleLabel">Game Rule</h3>
+					</div>
+					<div class="modal-body">
+						<h4>Overview</h4>
+						<p>The winning team is the team that has the highest score.</p>
+						<p>To win points for their team, players can check-in at sensor checkpoints or build and register new checkpoints. Each sensor checkpoint has a flag and a pool of available points.</p>
+						<p>When checking-in, players get the number of points available in the pool. If the players’ team has the sensor checkpoint's flag, then they score double points.</p>
+						<p>The number of points available in the pool correspond to the richness of the data available at the sensor checkpoint. The sensor checkpoint will log data every hour and will not save more than 24h of data. When check-in in, players will retrieve data and send to server.</p>
+						<p>In order to capture the flag of a checkpoint, teams need to send many players to check-in and get valid points more regularly than the opponent team.</p>
+						<h4>Detailed counting point system</h4>
+						<p>Check-in:</p>
+						<p>If that checkpoint belongs to the team: point = pool bonus x 2</p>
+						<p>Else: point = pool bonus</p>
+						<ul>
+						<li>For each hour, pool bonus increase by 1. It is resetted to 0 when there’s a check-in. It means that there’s only 1 “legal” check-in within 1 hours</li>
+						<li>Max pool bonus is 24</li>
+						<li>1 player can only check-in twice per day at a checkpoint,, with an interval of at least 6 hours</li>
+						</ul>
+						<p>Capture checkpoint:</p>
+						<p>Depend on Flag Point.</p>
+						<ul>
+							<li>Flag point increase by 1 when any The Red check-in and decrease by 1 when any The Blue check-in</li>
+							<li>1 player can only score 1 Flag point per day (It mean to score 5 Flag point per day, the team will need 5 unique member check-in 5 times legally)</li>
+							<li>Range of Flag point is from -5 to 5. If it reaches 5 then it’s belong to The Red, if it reaches -5 then it’s belong to The Blue</li>
+							<li>Once the checkpoint is owned, it need to be checkin at least 1 by the owner team everyday, or the Flag point will be reduce (or increase) to 0 as Fibonacci series: 1st for 1, 2nd for 2, and 3rd day for 3</li>
+						</ul>
+						<p>Set up new checkpoint:</p>
+						<p>To activate a new checkpoint, teams must complete a registration process:</p>
+						<ul>
+							<li>hardcode the location on checkpoint (will be used to cress-check location data)</li>
+							<li>send data over a first time (to cross-check location data the first time)</li>
+							<li>send a picture of the device (to display on map)</li>
+						</ul>
+						<p>The game organizer check the location accuracy and also that this checkpoint is not too close to another (less than 100m).</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="modal fade" id="fablabsaigon" tabindex="-1" role="dialog" aria-labelledby="fablabsaigonLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h3 class="modal-title" id="fablabsaigonLabel">FabLab Saigon</h3>
+					</div>
+					<div class="modal-body" style="text-align: center; font-size: 14pt;">
+						<iframe width="560" height="315" src="//www.youtube.com/embed/MV8CxZ8gU7E" frameborder="0" allowfullscreen></iframe>
+						<p>Drop us an email at <a href="mailto:fablabsaigon@gmail.com" title="fablabsaigon@gmail.com">fablabsaigon@gmail.com</a></p>
+						<p>Visit our Facebook page <a href="https://www.facebook.com/FablabSaigon" title="Fablab Saigon Facebook Page">https://www.facebook.com/FablabSaigon</a></p>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div id="main" ng-controller="AppListCtrl">
+			<div class="container">
+				<h1>Game Statistic</h1>
+				<div class="row">
+					<div class="col-md-5 left">
+						<table>
+							<caption><h3>The {{teams[0].teamname}}</h3></caption>
+							<tr>
+								<th>Total Points</td>
+								<td>{{teams[0].score}}</td>
+							</tr>
+							<tr>
+								<th>Number of Checkpoints</td>
+								<td>{{teams[0].checkpoints}}</td>
+							</tr>
+							<tr>
+								<th>Members</td>
+								<td>{{teams[0].members}}</td>
+							</tr>
+						</table>
+					</div>
+					<div class="col-md-5 col-md-offset-2 right">
+						<table>
+							<caption><h3>The {{teams[1].teamname}}</h3></caption>
+							<tr>
+								<th>Total Points</td>
+								<td>{{teams[1].score}}</td>
+							</tr>
+							<tr>
+								<th>Number of Checkpoints</td>
+								<td>{{teams[1].checkpoints}}</td>
+							</tr>
+							<tr>
+								<th>Members</td>
+								<td>{{teams[1].members}}</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div id="white">
+			<div class="container">
+				<div>
+					<h1>Checkpoint Maps</h1>
+					<div class="row">
+						<div class="col-md-12">
+							<div id="map"></div>
+						</div>
+					</div>
+				</div>
+				
+				<hr />
+				<footer>
+					<p class="copyright">&copy; 2014 <a href="http://fablabsaigon.org" title="FabLab Saigon">FabLab Saigon</a></p>
+				</footer>
+			</div>
+		</div>
+		
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    	<!-- Include all compiled plugins (below), or include individual files as needed -->
+    	<script src="js/bootstrap.min.js"></script>
+    	<script src="js/app.js"></script>
+    	
+    	<!-- Map Javascript -->
+    	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    	<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
+    	<script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+    	<script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
+    	<script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.2.3"></script>
+    	<script src="js/main.js"></script>
+
+    	<script>
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-XXXXXXXX-X']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+         })();
+    	</script>
+
+    	<script src="./js/angular.min.js"></script>
+    	<script src="./js/AppsController.js"></script>
+	</body>
+</html>

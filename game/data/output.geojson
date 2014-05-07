@@ -1,0 +1,123 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+               "type": "Point",
+                "coordinates": [
+                   106.66432,10.809677 
+                ]
+            },
+            "properties": {
+                "temp": 80.6,
+                "humid": 55
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    106.664343,10.806832
+                ]
+            },
+            "properties": {
+                "temp": 82.4,
+                "humid": 55
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    106.660491,10.800192
+                    
+                ]
+            },
+            "properties": {
+                "temp": 84.2,
+                "humid": 54
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    106.65758,10.797125
+                ]
+            },
+            "properties": {
+                "temp": 87.8,
+                "humid": 55
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    106.655180,10.794680
+                ]
+            },
+            "properties": {
+                "temp": 89.6,
+                "humid": 55
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    106.660625,10.796620
+                ]
+            },
+            "properties": {
+                "temp": 75.2,
+                "humid": 53
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    106.6644289,10.797410
+                ]
+            },
+            "properties": {
+                "temp": 68,
+                "humid": 54
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    106.658914,10.788782
+                ]
+            },
+            "properties": {
+                "temp": 64.4,
+                "humid": 57
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    106.660319,10.802432
+                ]
+            },
+            "properties": {
+                "temp": 75.2,
+                "humid": 59
+            }
+        }
+    ]
+}
