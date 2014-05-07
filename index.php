@@ -1,4 +1,4 @@
 <?php 
-header("HTTP/1.1 301 Moved Permanently"); 
-header("Location: http://playitcool.fablabsaigon.org/game/"); 
+//header("HTTP/1.1 301 Moved Permanently"); 
+//header("Location: http://playitcool.fablabsaigon.org/game/"); 
 ?>
